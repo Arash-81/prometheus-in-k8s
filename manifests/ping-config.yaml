@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ping-urls
+data:
+  urls: |
+    google.com
+    ted.com
+    bing.com
+    zoomit.ir
+    

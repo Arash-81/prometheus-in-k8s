@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ping-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ping-deployment
+  template:
+    metadata:
+      labels:
+        app: ping-deployment
+    spec:
+      containers:
+      - name: ping-bash
+        image: docker.io/arashgh/ping-bash:v7
+        command: ["/bin/bash", "ping-script.sh"]
+        volumeMounts:
+          - name: config-volume
+            mountPath: /my-domain
+          - name: emptydir-volume
+            mountPath: /data
+        resources:
+          limits:
+            cpu: 400m  
+            memory: 512Mi  
+          requests:
+            cpu: 200m
+            memory: 256Mi
+      - name: exporter
+        image: docker.io/arashgh/ping-exporter:v1
+        command: ["python", "pyExporter.py"]
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+          - name: emptydir-volume
+            mountPath: /data
+        resources:
+          limits:
+            cpu: 400m  
+            memory: 512Mi  
+          requests:
+            cpu: 200m
+            memory: 256Mi
+      volumes:
+        - name: config-volume
+          configMap:
+            name: ping-urls
+        - name: emptydir-volume
+          emptyDir: {}
