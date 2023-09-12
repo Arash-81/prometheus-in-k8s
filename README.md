@@ -45,6 +45,11 @@ The `exporter` container mounts the `emptydir-volume` volume, which is used to s
 
 - You can also enable auto service discovery by adding values during installation with Helm: click [here](https://fabianlee.org/2022/07/08/prometheus-monitoring-services-using-additional-scrape-config-for-prometheus-operator/).
 
+---
+
+### External Endpoints
+
+To get metrics from an external endpoint, I added an `Endpoints` kind that has my endpoint IP and port. I then wrote a service that selects this endpoint and has the `monitoring: enabled` label to expose metrics for a service monitor that selects this label.
 
 ---
 

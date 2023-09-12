@@ -1,0 +1,11 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+ name: node-exporter-external
+subsets:
+- addresses:
+  - ip: 129.151.223.94
+  ports:
+  - name: metrics
+    port: 3000
+    protocol: TCP
