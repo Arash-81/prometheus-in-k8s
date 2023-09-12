@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    release: monitoring
+  name: ping
+  namespace: monitoring
+spec:
+  endpoints:
+  - path: /metrics
+    port: metrics
+    interval: 60s
+  jobLabel: ping
+  namespaceSelector:
+    matchNames:
+    - default
+  selector:
+    matchLabels:
+      app: ping-deployment

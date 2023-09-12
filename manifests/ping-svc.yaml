@@ -2,10 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ping-svc
+  labels:
+    app: ping-deployment
 spec:
   selector:
     app: ping-deployment
   ports:
-    - protocol: TCP
+    - name: metrics
+      protocol: TCP
       port: 8000
       targetPort: 8000
+      nodePort: 30008
+  type: NodePort

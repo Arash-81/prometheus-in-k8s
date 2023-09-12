@@ -4,8 +4,8 @@
 
 First, I wrote a `ping-script.sh` script that uses the ping command to ping domains provided in the `ping-urls` config map every 30 seconds. The script saves the data in a shared file called `/data/ping.txt`, which I created a volume for this in the deployment YAML file.
 
-[!NOTE]
-To prevent race conditions, I created a `lock` file to set a mutex for preventing read/write access by Python and Bash.
+> [!NOTE]
+> To prevent race conditions, I created a `lock` file to set a mutex for preventing read/write access by Python and Bash.
 
 ---
 
@@ -13,9 +13,9 @@ To prevent race conditions, I created a `lock` file to set a mutex for preventin
 
 This code uses the Prometheus client library to export a gauge metric called my_inprogress_requests. The metric tracks the value for each domain and type.
 
-The code first starts a Prometheus HTTP server on port 8000. Then, it enters a loop where it checks the /data/lock file. If the file contains the string "mutex is 1", then the code executes the ping_values() function. This function reads the data from the /data/ping.txt file and exports the metrics to Prometheus. After the ping_values() function is executed, the code writes the string "mutex is 0" to the /data/lock file and sleeps for 30 seconds.
+The code first starts a Prometheus HTTP server on port `8000`. Then, it enters a loop where it checks the `/data/lock` file. If the file contains the string "mutex is 1", then the code executes the `ping_values()` function. This function reads the data from the `/data/ping.txt` file and exports the metrics to Prometheus. After the `ping_values()` function is executed, the code writes the string "mutex is 0" to the `/data/lock` file and sleeps for 30 seconds.
 
-If the /data/lock file does not contain the string "mutex is 1", then the code sleeps for 5 seconds.
+If the `/data/lock` file does not contain the string "mutex is 1", then the code sleeps for 5 seconds.
 
 ---
 
@@ -32,3 +32,15 @@ The `ping-bash` container mounts two volumes:
 The `emptydir-volume`, which is an empty directory that is used to store the results of the ping commands.
 
 The `exporter` container mounts the `emptydir-volume` volume, which is used to store the metrics exported by the `pyExporter.py` script.
+
+---
+
+### Service Discovery
+
+To add an exporter to Prometheus service discovery, I wrote a service monitor in `servicediscovery.yaml`. For more details, see [this]() link.
+
+You can also enable auto service discovery by adding values during installation with Helm: click [here]().
+
+### grafana dashboard
+
+![Alt text](grafana.png)
