@@ -37,10 +37,17 @@ The `exporter` container mounts the `emptydir-volume` volume, which is used to s
 
 ### Service Discovery
 
-To add an exporter to Prometheus service discovery, I wrote a service monitor in `servicediscovery.yaml`. For more details, see [this](https://fabianlee.org/2022/07/07/prometheus-monitoring-a-custom-service-using-servicemonitor-and-prometheusrule/) link.
+- To add an exporter to Prometheus service discovery, I wrote a service monitor in `servicediscovery.yaml`. For more details, see [this](https://fabianlee.org/2022/07/07/prometheus-monitoring-a-custom-service-using-servicemonitor-and-prometheusrule/) link.
 
-You can also enable auto service discovery by adding values during installation with Helm: click [here](https://fabianlee.org/2022/07/08/prometheus-monitoring-services-using-additional-scrape-config-for-prometheus-operator/).
+> [!IMPORTANT]
+> It would be better to create a headless service and then use the same label, such as `monitoring: enabled`, in the deployment, headless service, and service monitor. Check out the headless directory.
 
-### grafana dashboard
+
+- You can also enable auto service discovery by adding values during installation with Helm: click [here](https://fabianlee.org/2022/07/08/prometheus-monitoring-services-using-additional-scrape-config-for-prometheus-operator/).
+
+
+---
+
+### Grafana Dashboard
 
 ![Alt text](grafana.png)

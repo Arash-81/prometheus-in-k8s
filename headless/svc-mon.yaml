@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    release: monitoring
+  name: prom-headless-sd
+  namespace: monitoring
+spec:
+  endpoints:
+  - path: /metrics
+    port: metrics
+    interval: 60s
+  jobLabel: headless-sd
+  namespaceSelector:
+    matchNames:
+    - default
+  selector:
+    matchLabels:
+      monitoring: enabled
